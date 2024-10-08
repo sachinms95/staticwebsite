@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Call Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        pre {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 500px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Call API on Button Click</h1>
+    <button id="apiButton">Call API</button>
+    <pre id="responseOutput"></pre>
+
+    <script>
+        document.getElementById('apiButton').addEventListener('click', function() {
+            const apiUrl = 'https://hfo3tgrmud.execute-api.eu-north-1.amazonaws.com/myfunction'; // Your API Gateway URL
+
+            fetch(apiUrl, {
+                method: 'GET', // Change to POST if your Lambda function uses POST
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('responseOutput').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('responseOutput').textContent = 'Error: ' + error.message;
+            });
+        });
+    </script>
+</body>
+</html>
